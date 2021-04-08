@@ -1,0 +1,87 @@
+{% extends 'speedtest/base.html' %}
+
+{% block content_block %}
+    {% load static %}
+        <h1 class="title-performance">Network Dashboard - Version 0.4</h1>
+
+<canvas id="myChartline" width="400" height="200"></canvas>
+<script>
+var endpoint = '/api';
+
+$.ajax({
+  method: "GET",
+  url: endpoint,
+  success: function(data) {
+    drawLineGraph(data, 'myChartline');
+  },
+  error: function(error_data) {
+    console.log(error_data);
+  }
+})
+
+
+function drawLineGraph(data, id) {
+    var labels = data.labels;
+    var datasets = data.datasets;
+    var axis = data.axis_context;
+    var ctx = document.getElementById(id).getContext('2d');
+    var chart = new Chart(ctx, {
+        // The type of chart we want to create
+        type: 'line',
+
+        // The data for our dataset
+        data: {
+            labels: labels,
+            datasets: datasets,
+        },
+        // Configuration options go here
+        options: {
+            tooltips: {
+                mode: 'index',
+                enabled: true,
+            },
+            hover: {
+                mode: 'nearest',
+                enabled: true,
+            },
+            scales: {
+                xAxes: [{
+                    display: true,
+                }],
+                yAxes: axis
+            }
+        }
+
+    });
+}
+</script>
+
+<table class="table">
+  <thead>
+    <tr>
+        <th scope="col">Alias</th>
+        <th scope="col">IP Address</th>
+        <th scope="col">Server IP</th>
+        <th scope="col">Download</th>
+        <th scope="col">Upload</th>
+        <th scope="col">Ping</th>
+        <th scope="col">Date Time</th>
+    </tr>
+  </thead>
+  <tbody class="scrollable">
+    {% for test in testresult_list %}
+    <tr>
+        <td>{{ test.alias }}</td>
+        <td>{{ test.ip_address }}</td>
+        <td>{{ test.server_ip }}</td>
+        <td>{{ test.download }}</td>
+        <td>{{ test.upload }}</td>
+        <td>{{ test.ping }}</td>
+        <td>{{ test.test_datetime }}</td>
+    </tr>
+{% endfor %}
+  </tbody>
+</table>
+
+
+{% endblock %}

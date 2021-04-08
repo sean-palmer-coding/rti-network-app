@@ -1,0 +1,87 @@
+{% extends 'speedtest/base.html' %}
+{% load static %}
+{% block content_block %}
+
+<script type="text/javascript">
+$("#Formid").submit(function(event){
+   event.returnValue = false;
+})
+</script>
+    <div id="outputDiv"></div>
+<div class="card border-0">
+  <div class="card-body" id="search-params">
+  <form method="GET" action="." id="Formid">
+  <p>Show me results for
+    <select class="location-dropdown" name="location-list">
+        <option value="All" {% if location_selection == "All" %}selected{% endif %}>All Locations</option>
+        {% for location in locations %}
+            <option value="{{ location.location }}" {% if location_selection == location.location %}selected{% endif %}>{{ location.location }}</option>
+        {% endfor %}
+    </select>
+     between
+  <input type="datetime-local" name="start-datetime" value="{{ start_date }}">
+  and
+      <input type="datetime-local" name="end-datetime" value="{{ end_date }}">
+  <button type="submit" class="btn btn-primary" onsubmit="return false">Search</button>
+  <button type="submit" class="btn btn-primary" id="csv-button" onsubmit="return false" formaction="{% url 'csv' %}">Export to CSV</button>
+  <button type="button" class="btn btn-danger" onclick="window.location.href='{% url 'record_view' %}'">Reset</button>
+  </p>
+  </form>
+  </div>
+</div>
+    <p></p>
+<table class="table" id="datatable">
+  <thead>
+    <tr>
+        <th scope="col">Alias</th>
+        <th scope="col">IP Address</th>
+        <th scope="col">Server IP</th>
+        <th scope="col">Download</th>
+        <th scope="col">Upload</th>
+        <th scope="col">Ping</th>
+        <th scope="col">Date Time</th>
+    </tr>
+  </thead>
+  <tbody class="scrollable">
+    {% for test in testresult_list %}
+    <tr>
+        <td>{{ test.alias }}</td>
+        <td>{{ test.ip_address }}</td>
+        <td>{{ test.server_ip }}</td>
+        <td>{{ test.download }}</td>
+        <td>{{ test.upload }}</td>
+        <td>{{ test.ping }}</td>
+        <td>{{ test.test_datetime }}</td>
+    </tr>
+{% endfor %}
+  </tbody>
+</table>
+    <div class="pageination-container">
+{% if testresult_list.has_other_pages %}
+  <ul class="pagination">
+    {% if testresult_list.has_previous %}
+      <li class="page-item"><a class="page-link" href="?page={{ testresult_list.previous_page_number }}">&laquo;</a></li>
+    {% else %}
+      <li class="disabled page-item"><span class="page-link">&laquo;</span></li>
+    {% endif %}
+    {% for i in testresult_list.paginator.page_range %}
+      {% if testresult_list.number == i %}
+        <li class="active page-item"><span class="page-link">{{ i }}<span class="sr-only">(current)</span></span></li>
+      {% else %}
+        <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+      {% endif %}
+    {% endfor %}
+    {% if testresult_list.has_next %}
+      <li class="page-item"><a class="page-link" href="?page={{ testresult_list.next_page_number }}">&raquo;</a></li>
+    {% else %}
+      <li class="disabled page-item"><span class="page-link">&raquo;</span></li>
+    {% endif %}
+  </ul>
+{% endif %}
+    <p>{{ results }} Results Returned</p>
+    </div>
+
+
+
+
+{% endblock %}
