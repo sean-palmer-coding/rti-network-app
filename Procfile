@@ -1,1 +1,1 @@
-web:gunicorn RTI.wsgi --log-file -
+web:gunicorn RTI.wsgi
