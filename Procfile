@@ -1,1 +1,1 @@
-web:gunicorn RTI.wsgi
+web: gunicorn RTI.wsgi
