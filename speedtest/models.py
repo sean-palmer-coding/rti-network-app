@@ -3,7 +3,7 @@ from django.utils import timezone
 
 # Create your models here.
 
-
+#location model for location of network diagnostic nodes
 class Locations(models.Model):
     location = models.CharField(max_length=200)
     lat = models.CharField(max_length=100)

@@ -55,7 +55,7 @@
     {% summary_stats as s_stats %}
     {% for i, v in s_stats.items %}
         <tbody>
-        <tr onclick="window.location='rti-network-diag.azurewebsites.net/records/?location-list={{ i }}&start-datetime={{ timedelt }}&end-datetime='">
+        <tr onclick="window.location='/records/?location-list={{ i }}&start-datetime={{ timedelt }}&end-datetime='">
             <td>{{ i }}</td>
             {% for p in v %}
                 <td>{{ p }}</td>
