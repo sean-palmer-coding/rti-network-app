@@ -143,6 +143,6 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = '/speedtest/static/'
 
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+# STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 LOGIN_REDIRECT_URL = '/'
