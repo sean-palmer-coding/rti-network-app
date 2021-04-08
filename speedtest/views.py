@@ -100,13 +100,13 @@ def chart_data(request, format=None):
     for i in data:
         ping.append(i['ping'])
         if i['alias'] in chart_labels:
-            plotables[i['alias']].append((i['test_datetime'].strftime('%X'), i['download'], i['upload'], i['ping']))
+            plotables[i['alias']].append((i['test_datetime'].strftime('%Y-%m-%d %X'), i['download'], i['upload'], i['ping']))
         else:
             chart_labels.append(i['alias'])
             chart_labels.append(i['alias'] + ' upload')
             locations.append(i['alias'])
             plotables[i['alias']] = []
-            plotables[i['alias']].append((i['test_datetime'].strftime('%X'), i['download'], i['upload'], i['ping']))
+            plotables[i['alias']].append((i['test_datetime'].strftime('%Y-%m-%d %X'), i['download'], i['upload'], i['ping']))
     labels = []
     for i in locations:
         for x in plotables.get(i):
