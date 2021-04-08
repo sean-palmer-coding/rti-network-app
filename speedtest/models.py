@@ -12,6 +12,8 @@ class Locations(models.Model):
     notes = models.TextField(null=True)
     color = models.CharField(max_length=200, default="rgb(255,255,255)")
 
+    def __str__(self):
+        return self.location
 
 class TestResult(models.Model):
     alias = models.CharField(max_length=200)
