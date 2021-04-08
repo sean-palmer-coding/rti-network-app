@@ -1,0 +1,13 @@
+asgiref==3.3.1
+Django==3.1.7
+django-mssql-backend==2.8.1
+djangorestframework==3.12.2
+fanstatic==1.1
+js==1.0
+pyodbc==4.0.30
+pytz==2021.1
+shutilwhich==1.1.0
+sqlparse==0.4.1
+style==1.1.0
+update==0.0.1
+WebOb==1.8.7
