@@ -5,7 +5,7 @@ from .models import TestResult, Locations
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from datetime import datetime
+from datetime import datetime, timedelta
 import csv
 
 # Create your views here.
@@ -92,7 +92,7 @@ def CSV_output(request):
 @api_view(['GET'])
 def chart_data(request, format=None):
     num_of_sites = len(Locations.objects.values('location'))
-    data = TestResult.objects.values('alias', 'test_datetime', 'download', 'upload', 'ping').order_by('test_datetime')[:num_of_sites * 96]
+    data = TestResult.objects.values('alias', 'test_datetime', 'download', 'upload', 'ping').order_by('test_datetime').filter(test_datetime__gte=datetime.now() - timedelta(days=1))
     chart_labels = []
     locations = []
     plotables = {}
@@ -100,7 +100,7 @@ def chart_data(request, format=None):
     for i in data:
         ping.append(i['ping'])
         if i['alias'] in chart_labels:
-            plotables[i['alias']].append((i['test_datetime'].strftime('%Y-%m-%d %X'), i['download'], i['upload'], i['ping']))
+                plotables[i['alias']].append((i['test_datetime'].strftime('%Y-%m-%d %X'), i['download'], i['upload'], i['ping']))
         else:
             chart_labels.append(i['alias'])
             chart_labels.append(i['alias'] + ' upload')
