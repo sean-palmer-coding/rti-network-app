@@ -26,7 +26,7 @@ SECRET_KEY = '!xw!x2qrs+@$x93un40pjn9nqzn&rbuew0*#9dmj13$rjm(n59'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['rti-network-monitor.herokuapp.com', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['rti-network-diag.azurewebsites.net', 'localhost', '127.0.0.1']
 
 
 # Application definition
