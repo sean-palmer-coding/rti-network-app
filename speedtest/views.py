@@ -40,7 +40,7 @@ def FilterView(request):
     if end_datetime_ != '' and end_datetime_ is not None:
         end_datetime = datetime.strptime(end_datetime_, '%Y-%m-%dT%H:%M')
         qs = qs.filter(test_datetime__lte=end_datetime)
-    paginator = Paginator(qs, 4)
+    paginator = Paginator(qs, 25)
     try:
         testresults = paginator.page(page)
     except PageNotAnInteger:
