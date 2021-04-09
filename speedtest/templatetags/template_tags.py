@@ -7,7 +7,7 @@ register = template.Library()
 
 @register.simple_tag(name='summary_stats')
 def summary_stats():
-    data = TestResult.objects.values('alias', 'download', 'upload', 'ping')[:96]
+    data = TestResult.objects.values('alias', 'download', 'upload', 'ping').filter(test_datetime__gte=(datetime.now() - timedelta(days=1)).strftime('%Y-%m-%dT%H:%M'))
     locations = Locations.objects.values_list('location')
     sumstats = []
     context = {}
