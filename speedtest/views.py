@@ -128,6 +128,7 @@ def chart_data(request, format=None):
              'data': dict[i],
              'YAxisID': 'A',
              'borderColor': colors[i],
+             'fill': 'false'
              })
         list.append(
             {
@@ -135,7 +136,8 @@ def chart_data(request, format=None):
              'data': dict[i + ' Upload'],
              'yAxisID': 'A',
              'borderColor': colors[i],
-             'borderDash': [10, 5]
+             'borderDash': [10, 5],
+             'fill': 'false'
              }
         )
         list.append(
@@ -145,6 +147,7 @@ def chart_data(request, format=None):
                 'yAxisID': 'B',
                 'borderColor': colors[i],
                 'borderDash': [2, 10],
+                'fill': 'false'
             }
         )
     axis = [
