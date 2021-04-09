@@ -30,7 +30,10 @@ def summary_stats():
         except Exception:
             flist = ['N/A', 'N/A', 'N/A']
         flist.append(counter)
-        context[i[0]] = flist
+        if counter > 0:
+            context[i[0]] = flist
+        else:
+            continue
     return context
 
 @register.simple_tag(name='tdelta')
