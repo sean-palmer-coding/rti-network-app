@@ -19,11 +19,11 @@ class PerformanceView(ListView):
     model = TestResult
 
     def get_queryset(self):
-        return TestResult.objects.order_by("-test_datetime")[:10]
+        return TestResult.objects.order_by("-test_datetime")[:5]
 
 
 def FilterView(request):
-    qs = TestResult.objects.all()
+    qs = TestResult.objects.all().order_by('-test_datetime')
     locations = Locations.objects.values('location')
     template_name = "speedtest/recordview.html"
     location_selection = request.GET.get('location-list')
@@ -40,7 +40,7 @@ def FilterView(request):
     if end_datetime_ != '' and end_datetime_ is not None:
         end_datetime = datetime.strptime(end_datetime_, '%Y-%m-%dT%H:%M')
         qs = qs.filter(test_datetime__lte=end_datetime)
-    paginator = Paginator(qs, 25)
+    paginator = Paginator(qs, 20)
     try:
         testresults = paginator.page(page)
     except PageNotAnInteger:
@@ -58,7 +58,7 @@ def FilterView(request):
     return render(request, template_name, context)
 
 def CSV_output(request):
-    qs = TestResult.objects.values('alias', 'test_datetime', 'download', 'upload', 'ping').order_by('test_datetime')
+    qs = TestResult.objects.values('alias', 'test_datetime', 'download', 'upload', 'ping').order_by('-test_datetime')
     location_selection = request.GET.get('location-list')
     start_datetime_ = request.GET.get('start-datetime')
     end_datetime_ = request.GET.get('end-datetime')
