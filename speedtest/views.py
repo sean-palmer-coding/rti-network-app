@@ -112,6 +112,7 @@ def chart_data(request, format=None):
         for x in plotables.get(i):
             labels.append(x[0])
     list = []
+    ping_dataset = []
     dict = {}
     color_q = Locations.objects.values('location', 'color')
     colors = {}
@@ -140,11 +141,11 @@ def chart_data(request, format=None):
              'fill': 'false'
              }
         )
-        list.append(
+        ping_dataset.append(
             {
                 'label': i + ' Ping',
                 'data': dict[i + ' Ping'],
-                'yAxisID': 'B',
+                'yAxisID': 'A',
                 'borderColor': colors[i],
                 'borderDash': [2, 10],
                 'fill': 'false'
@@ -164,22 +165,23 @@ def chart_data(request, format=None):
                 'fontSize': 16,
             }
         },
+    ]
+    axis2 = [
         {
-            'id': 'B',
+            'id': 'A',
             'type': 'linear',
-            'position': 'right',
+            'position': 'left',
             'ticks': {
-                'max': max(ping) + 10,
-                'min': min(ping) - 10,
+                'beginAtZero': 'true'
             },
             'scaleLabel': {
                 'display': 'true',
-                'labelString': 'Ping Time | Milliseconds',
+                'labelString': 'Ping | Ms',
                 'fontSize': 16,
             }
         },
     ]
-    context = {'labels': labels, 'datasets': list, 'axis_context': axis}
+    context = {'labels': labels, 'datasets': list, 'axis_context_top': axis, 'axis_context_bottom': axis2, 'ping_dataset': ping_dataset}
 
     return Response(context)
 

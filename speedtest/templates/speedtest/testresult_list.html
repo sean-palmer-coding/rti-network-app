@@ -2,9 +2,10 @@
 
 {% block content_block %}
     {% load static %}
-        <h1 class="title-performance">Network Dashboard - Version 0.9</h1>
+        <h1 class="title-performance">Network Dashboard - Version 0.91</h1>
 
-<canvas id="myChartline" width="400" height="200"></canvas>
+<canvas id="down/upload_chart" width="400" height="125"></canvas>
+<canvas id="ping_chart" width="400" height="75"></canvas>
 <script>
 var endpoint = '/api';
 
@@ -12,7 +13,8 @@ $.ajax({
   method: "GET",
   url: endpoint,
   success: function(data) {
-    drawLineGraph(data, 'myChartline');
+    drawLineGraph(data, 'down/upload_chart', data.datasets, data.axis_context_top);
+    drawLineGraph(data, 'ping_chart', data.ping_dataset, data.axis_context_bottom);
   },
   error: function(error_data) {
     console.log(error_data);
@@ -20,10 +22,8 @@ $.ajax({
 })
 
 
-function drawLineGraph(data, id) {
+function drawLineGraph(data, id, datasets, axis) {
     var labels = data.labels;
-    var datasets = data.datasets;
-    var axis = data.axis_context;
     var ctx = document.getElementById(id).getContext('2d');
     var chart = new Chart(ctx, {
         // The type of chart we want to create
@@ -56,6 +56,8 @@ function drawLineGraph(data, id) {
     });
 }
 </script>
+
+
 
 <table class="table">
   <thead>
