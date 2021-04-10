@@ -23,7 +23,7 @@ class PerformanceView(ListView):
 
 
 def FilterView(request):
-    qs = TestResult.objects.all().order_by('-test_datetime')[:750]
+    qs = TestResult.objects.all().order_by('-test_datetime')
     locations = Locations.objects.values('location')
     template_name = "speedtest/recordview.html"
     location_selection = request.GET.get('location-list')
@@ -40,6 +40,7 @@ def FilterView(request):
     if end_datetime_ != '' and end_datetime_ is not None:
         end_datetime = datetime.strptime(end_datetime_, '%Y-%m-%dT%H:%M')
         qs = qs.filter(test_datetime__lte=end_datetime)
+    qs = qs[:750]
     paginator = Paginator(qs, 20)
     try:
         testresults = paginator.page(page)
