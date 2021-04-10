@@ -23,7 +23,7 @@ class PerformanceView(ListView):
 
 
 def FilterView(request):
-    qs = TestResult.objects.all().order_by('-test_datetime')
+    qs = TestResult.objects.all().order_by('-test_datetime')[:900]
     locations = Locations.objects.values('location')
     template_name = "speedtest/recordview.html"
     location_selection = request.GET.get('location-list')
@@ -50,7 +50,7 @@ def FilterView(request):
     context = {
         'locations': locations,
         'testresult_list': testresults,
-        'results': len(qs),
+        'results': len(qs) if len(qs) <= 900 else '900+',
         'location_selection': location_selection,
         'start_date': start_datetime_,
         'end_date': end_datetime_,
