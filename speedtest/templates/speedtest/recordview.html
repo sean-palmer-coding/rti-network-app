@@ -7,7 +7,6 @@ $("#Formid").submit(function(event){
    event.returnValue = false;
 })
 </script>
-    <div id="outputDiv"></div>
 <div class="card border-0">
   <div class="card-body" id="search-params">
   <form method="GET" action="." id="Formid">
@@ -78,7 +77,7 @@ $("#Formid").submit(function(event){
     {% endif %}
   </ul>
 {% endif %}
-    <p>{{ results }} Results Returned</p>
+    <p>{% if results < 750 %}{{ results }}{% else %}750+{% endif %} Results Returned</p>
     </div>
 
 
