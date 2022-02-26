@@ -12,24 +12,30 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 
 from pathlib import Path
 import os
-
+import json
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
+with open(os.path.join(BASE_DIR, 'secret.json')) as secrets_file:
+    secrets = json.load(secrets_file)
 
+def get_secret(setting, secrets=secrets):
+    """Get secret setting or fail with ImproperlyConfigured"""
+    try:
+        return secrets[setting]
+    except KeyError:
+        raise ImproperlyConfigured("Set the {} setting".format(setting))
+# Application definition
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '!xw!x2qrs+@$x93un40pjn9nqzn&rbuew0*#9dmj13$rjm(n59'
+SECRET_KEY = get_secret("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['rti-network-diag.azurewebsites.net', 'localhost', '127.0.0.1']
-
-
-# Application definition
+ALLOWED_HOSTS = ['rti-network-diag.azurewebsites.net', 'localhost', '192.168.1.144', '127.0.0.1']
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -126,8 +132,8 @@ DATABASES = {
      'default': {
          'ENGINE': 'sql_server.pyodbc',
          'NAME': 'Django_main',
-         'USER': 'sean',
-         'PASSWORD': '$3@np@1m3r',
+         'USER': get_secret("DATABASE_USER"),
+         'PASSWORD': get_secret("DATABASE_PASS"),
          'HOST': 'network-diag.database.windows.net',
          'PORT': '1433',
          'OPTIONS': {
@@ -179,7 +185,4 @@ STATIC_ROOT = '/speedtest/static/'
 
 LOGIN_REDIRECT_URL = '/'
 
-# Configure Django App for Heroku.
-import django_heroku
-django_heroku.settings(locals())
 

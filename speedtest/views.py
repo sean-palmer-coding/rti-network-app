@@ -93,7 +93,7 @@ def CSV_output(request):
 @api_view(['GET'])
 def chart_data(request, format=None):
     num_of_sites = len(Locations.objects.values('location'))
-    data = TestResult.objects.values('alias', 'test_datetime', 'download', 'upload', 'ping').order_by('test_datetime').filter(test_datetime__gte=datetime.now() - timedelta(days=1))
+    data = TestResult.objects.values('alias', 'test_datetime', 'download', 'upload', 'ping').order_by('test_datetime').filter(test_datetime__gte=datetime.now() - timedelta(days=45))
     chart_labels = []
     locations = []
     plotables = {}
